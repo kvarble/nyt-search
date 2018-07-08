@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import React from "react";
 import Articles from "./pages/Articles";
 
 const App = () => (
+  <Router>
   <div>
-    <Articles />
+  <Switch>
+  <Route exact path="/" component={Articles} />
+  <Route exact path="/articles" component={Articles} />
+    </Switch>
   </div>
+  </Router>
 );
 
 export default App;

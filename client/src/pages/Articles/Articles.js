@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { ListItem, Results, SaveBtn } from "../../components/Results";
-import { Saved, SavedList } from "../../components/Saved";
-import { Input, Searchbtn } from "../../components/Search";
 import API from "../../utils/API";
+import { Title } from "../../components/Title";
+import { Wrapper } from "../../components/Wrapper";
+import { Input, Searchbtn } from "../../components/Search";
+import { Results } from "../../components/Results";
+import { Saved, SavedList } from "../../components/Saved";
+
 
 class Articles extends Component {
     state = {
@@ -23,11 +26,11 @@ class Articles extends Component {
             )
             .catch(err => console.log(err));
     };
-    
+
     deleteArticle = id => {
         API.deleteArticle(id)
-        .then(res => this.loadArticles())
-        .catch(err => console.log(err)) 
+            .then(res => this.loadArticles())
+            .catch(err => console.log(err))
     };
 
     handleInputChange = event => {
@@ -42,7 +45,7 @@ class Articles extends Component {
         if (this.state.topic && this.state.date) {
             API.saveArticle({
                 title: this.state.title,
-                date: this.state.date, 
+                date: this.state.date,
                 url: this.state.url
             })
                 .then(res => this.loadArticles())
@@ -53,7 +56,34 @@ class Articles extends Component {
     render() {
         return (
             <Wrapper>
-                </Wrapper>
+                <Title>NYT Search</Title>
+                <div>
+                    <Search>
+                        <Input
+                            topic={this.state.Topic}
+                            beginningYear={this.state.beginningYear}
+                            endingYear={this.state.endingYear}>
+                            ></Input>
+                        <Searchbtn></Searchbtn>
+                    </Search>
+                </div>
+                <div>
+                    <Results
+                        Title={this.Title}
+                        Date={this.Date}
+                        URL={this.URL}
+                    >
+                    </Results>
+                </div>
+                <div>
+                    <Saved>
+                        <SavedList>
+
+                        </SavedList>
+                    </Saved>
+                </div>
+            </Wrapper>
         )
     }
 }
+export default Articles;
