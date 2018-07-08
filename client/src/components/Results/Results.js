@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Results = ({ props }) => {
+const Results = ({ props }) => {
     return (
         <div>
             <div className="panel-heading">Results</div>
@@ -15,3 +15,4 @@ export const Results = ({ props }) => {
         </div>
     )
 }
+export default Results;

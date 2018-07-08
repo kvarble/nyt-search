@@ -1,18 +1,23 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
-import { Title } from "../../components/Title";
-import { Wrapper } from "../../components/Wrapper";
-import { Input, Searchbtn } from "../../components/Search";
-import { Results } from "../../components/Results";
-import { Saved, SavedList } from "../../components/Saved";
+// import API from "../../utils/API";
+import Title from "../../components/Title";
+// import { Wrapper } from "../../components/Wrapper";
+import Input from "../../components/Input";
+import SearchBtn from "../../components/SearchBtn";
+import Article from "../../components/Article";
+const API = require ("../../utils/API")
+
+
+// import Results  from "../../components/Results";
+// import Saved from "../../components/Saved";
+// import SavedList from "../../components/Saved";
+
 
 
 class Articles extends Component {
     state = {
-        articles: [],
-        title: "",
-        date: "",
-        url: ""
+        results: [],
+        search: "",
     };
 
     componentDidMount() {
@@ -30,6 +35,12 @@ class Articles extends Component {
     deleteArticle = id => {
         API.deleteArticle(id)
             .then(res => this.loadArticles())
+            .catch(err => console.log(err))
+    };
+
+    searchArticles = query => {
+        API.search(query)
+            .then(res => this.setState({ results: res.data }))
             .catch(err => console.log(err))
     };
 
@@ -55,34 +66,33 @@ class Articles extends Component {
 
     render() {
         return (
-            <Wrapper>
+            <div>
                 <Title>NYT Search</Title>
                 <div>
-                    <Search>
                         <Input
                             topic={this.state.Topic}
                             beginningYear={this.state.beginningYear}
                             endingYear={this.state.endingYear}>
-                            ></Input>
-                        <Searchbtn></Searchbtn>
-                    </Search>
+                            </Input>
+                        <SearchBtn>SEARCH</SearchBtn>
                 </div>
                 <div>
-                    <Results
+                    <Article></Article>
+                    {/* <Results
                         Title={this.Title}
                         Date={this.Date}
                         URL={this.URL}
                     >
-                    </Results>
+                    </Results> */}
                 </div>
                 <div>
-                    <Saved>
+                    {/* <Saved>
                         <SavedList>
 
                         </SavedList>
-                    </Saved>
+                    </Saved> */}
                 </div>
-            </Wrapper>
+            </div>
         )
     }
 }
