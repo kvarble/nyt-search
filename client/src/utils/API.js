@@ -4,8 +4,6 @@ const BASEURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 const APIKEY = "&api-key=920b87c0829746bc88a1a507e4c2b20d";
 
 export default {
-
-API:{
         queryAPI: function (topic, start, end) {
 
             return axios.get(BASEURL, 
@@ -56,7 +54,6 @@ API:{
         saveArticle: function (articleData) {
             return axios.post("/api/articles", articleData);
         }
-    }
+    
 
-    // module.exports = API;
 }

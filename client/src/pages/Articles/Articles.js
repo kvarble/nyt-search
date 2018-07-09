@@ -8,7 +8,7 @@ import Results from "../../components/Results";
 import SearchForm from "../../components/SearchForm";
 // import axios from "axios";
 // import Article from "../../components/Article";
-const API = require("../../utils/API")
+import API from "../../utils/API"
 
 
 // import Saved from "../../components/Saved";
@@ -61,14 +61,24 @@ class Articles extends Component {
     };
 
     handleFormSubmit = event => {
+        console.log("TOMATOES:", this.state.topic)
         event.preventDefault();
+
         if (this.state.topic) {
-            API.saveArticle({
-                title: this.state.title,
-                date: this.state.date,
-                url: this.state.url
-            })
+            
+            const data = {
+                
+                    title: this.state.title,
+                    date: this.state.date,
+                    url: this.state.url
+                
+            }
+            
+            console.log(API)
+            
+            API.saveArticle(data)
                 .then(res => {
+                    console.log(data)
                     if (res.data.status === "error") {
                         throw new Error(res.data.message);
                     }
@@ -76,7 +86,7 @@ class Articles extends Component {
                 })
                 .catch(err => this.setState({ error: err.message }));
         };
-        this.loadArticles;
+        this.loadArticles();
 
     };
 
