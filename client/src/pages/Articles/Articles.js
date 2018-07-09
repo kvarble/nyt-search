@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 // import API from "../../utils/API";
 import Title from "../../components/Title";
-// import { Wrapper } from "../../components/Wrapper";
-import Input from "../../components/Input";
-import SearchBtn from "../../components/SearchBtn";
-import Article from "../../components/Article";
-const API = require ("../../utils/API")
+import Wrapper from "../../components/Wrapper";
+// import Input from "../../components/Input";
+import Results from "../../components/Results";
+
+import SearchForm from "../../components/SearchForm";
+// import axios from "axios";
+// import Article from "../../components/Article";
+const API = require("../../utils/API")
 
 
-// import Results  from "../../components/Results";
 // import Saved from "../../components/Saved";
 // import SavedList from "../../components/Saved";
 
@@ -16,21 +18,28 @@ const API = require ("../../utils/API")
 
 class Articles extends Component {
     state = {
-        results: [],
+        Articles: [],
         search: "",
+        results:[],     
+        Date: "",
+        URL: ""
     };
 
     componentDidMount() {
-        this.loadArticles();
+        this.loadArticles;
     }
+
+
 
     loadArticles = () => {
         API.getArticles()
             .then(res =>
                 this.setState({ articles: res.data, title: "", date: "", url: "" })
+
             )
             .catch(err => console.log(err));
     };
+
 
     deleteArticle = id => {
         API.deleteArticle(id)
@@ -53,46 +62,54 @@ class Articles extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        if (this.state.topic && this.state.date) {
+        if (this.state.topic) {
             API.saveArticle({
                 title: this.state.title,
                 date: this.state.date,
                 url: this.state.url
             })
-                .then(res => this.loadArticles())
-                .catch(err => console.log(err))
-        }
+                .then(res => {
+                    if (res.data.status === "error") {
+                        throw new Error(res.data.message);
+                    }
+                    this.setState({ results: res.data.message, error: "" });
+                })
+                .catch(err => this.setState({ error: err.message }));
+        };
+        this.loadArticles;
+
     };
 
     render() {
         return (
-            <div>
-                <Title>NYT Search</Title>
+            <Wrapper>
                 <div>
-                        <Input
-                            topic={this.state.Topic}
-                            beginningYear={this.state.beginningYear}
-                            endingYear={this.state.endingYear}>
-                            </Input>
-                        <SearchBtn>SEARCH</SearchBtn>
-                </div>
-                <div>
-                    <Article></Article>
-                    {/* <Results
-                        Title={this.Title}
-                        Date={this.Date}
-                        URL={this.URL}
-                    >
-                    </Results> */}
-                </div>
-                <div>
-                    {/* <Saved>
+                    <Title>NYT Search</Title>
+                    <div>
+                        <SearchForm
+                            handleFormSubmit={this.handleFormSubmit}
+                            handleInputChange={this.handleInputChange}>
+                        </SearchForm>
+                        {/* <SearchBtn>SEARCH</SearchBtn> */}
+                    </div>
+                    <div>
+                        <Results
+                            Title={this.state.Title}
+                            Date={this.state.Date}
+                            URL={this.state.URL}
+                        >
+                        </Results>
+                    </div>
+                    <div>
+                        {/* <Saved>
                         <SavedList>
 
                         </SavedList>
                     </Saved> */}
+                    </div>
                 </div>
-            </div>
+            </Wrapper>
+
         )
     }
 }

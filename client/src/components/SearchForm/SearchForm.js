@@ -1,6 +1,11 @@
 import React from "react";
+import "./SearchForm.css";
 
-const Input = props => 
+
+const SearchForm = props =>( 
+
+  
+  <form className="search">
   <div className="form-group">
     <label htmlFor="topic">Search:</label>
     <input className="form-control"
@@ -10,28 +15,43 @@ const Input = props =>
       type="text"
       placeholder="Search by topic"
       id="topic"
+      {...props}
     />
 
-    <label htmlFor="beginningYear">Search:</label>
+    <label htmlFor="start">Search:</label>
     <input className="form-control"
       onChange={props.handleInputChange}
       value={props.value}
-      name="beginning-year"
+      name="start"
       type="text"
-      placeholder="beginning-year"
-      id="beginning-year"
+      placeholder="start"
+      id="start"
+      {...props}
+
     />
 
-    <label htmlFor="endingYear">Search:</label>
+    <label htmlFor="end">Search:</label>
     <input className="form-control"
       onChange={props.handleInputChange}
       value={props.value}
-      name="ending-year"
+      name="end"
       type="text"
-      placeholder="ending-year"
-      id="ending-year"
+      placeholder="end"
+      id="end"
+      {...props}
+
     />
+      <button
+        type="submit"
+        onClick={props.handleFormSubmit}
+        className="btn btn-success"
+      >
+        Search
+      </button>
+
   </div>
+  </form>
+)
 ;
 
-export default Input;
+export default SearchForm;
